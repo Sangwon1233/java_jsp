@@ -15,7 +15,5 @@ public class MappingServlet extends HttpServlet{
 		super.service(req, resp);
 		System.out.println("mapping");
 	}
-	
-	
 
 }
