@@ -23,7 +23,7 @@ public class Signup extends HttpServlet{
 	
 	}
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException { //request가 요청 response 응답
 		// TODO Auto-generated method stub
 		req.setCharacterEncoding("utf-8");//한글 깨짐 해결하기 위해 값 넣기
 		String id = req.getParameter("id");
