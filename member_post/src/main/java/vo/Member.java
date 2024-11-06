@@ -3,6 +3,7 @@ package vo;
 import java.util.Date;
 
 import lombok.Data;
+import vo.Post.PostBuilder;
 
 @Data
 public class Member {
@@ -14,6 +15,7 @@ public class Member {
 	private String detailAddr;
 	private Date regdate;
 	//필드는 어지간하면 프라이빗
+	
 	
 	//생성자
 	public Member() {}
@@ -34,7 +36,9 @@ public class Member {
 		this.roadAddr= roadAddr;
 		this.detailAddr= detailAddr;
 		}
-	
+	public int getNum() {
+		return 10;
+	}
 	
 	public static M builder() {
 		return new M();
@@ -79,6 +83,10 @@ public class Member {
 		
 		public Member build() {
 			return new Member(id,pw,name,email,roadAddr,detailAddr,regdate);
+		}
+		public PostBuilder title(String string) {
+			// TODO Auto-generated method stub
+			return null;
 		}
 
 	

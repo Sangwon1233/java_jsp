@@ -59,8 +59,8 @@ public class MemberDao {
 	}
 	public static void main(String[] args) {
 		MemberDao dao= new MemberDao();
-//		int result=	dao.insert(Member.builder().id("eeeeee").pw("1234").name("qqqww").build());
-//		System.out.println(result);
+		int result=	dao.insert(Member.builder().id("eeeeee").pw("1234").name("qqqww").build());
+		System.out.println(result);
 		
 		Member m = dao.selectOne("ccaaacc");
 				System.out.println(m);
