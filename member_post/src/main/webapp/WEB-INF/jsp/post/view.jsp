@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,6 +11,10 @@
 	<div class="wrap">
 		<jsp:include page="../common/header.jsp" />
 		<main class="container">
+			<div class="clearfix py-4">
+				 <h2 class="float-start">게시판 보기</h2>
+			 	<a href="write" class="btn btn-primary float-end">글쓰기</a>
+			 </div>
 			  <div class="my-3 col-md-9 mx-auto">
                 <label for="title" class="form-label mt-3"><i class="fa-solid fa-heading "></i> <b>제목:</b></label>
                 <input type="text" class="form-control" id="title" placeholder="title" name="title" value="${post.title}" disabled>
@@ -28,9 +33,12 @@
             
                 <hr>
                <div class="text-center my-5">
+               		<c:if test="${post.writer == member.id}">
+                    <a href="modify?pno=${post.pno}" class="btn btn-warning">수정</a>
+                    <a href="remove?pno=${post.pno}" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+                    </c:if>
                     <a href="list" class="btn btn-primary">목록</a>
                </div>
-            
             </div>
 		</main>
 		<jsp:include page="../common/footer.jsp" />

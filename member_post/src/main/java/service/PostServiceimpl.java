@@ -17,7 +17,7 @@ public class PostServiceimpl implements PostService  {
 		return dao.update(post);
 	};
 	
-	public int romove(Long pno) {
+	public int remove(Long pno) {
 		return dao.delete(pno);
 	};
 	
@@ -27,8 +27,14 @@ public class PostServiceimpl implements PostService  {
 	
 	public List<Post> list(){
 		return dao.selectList();
-	};
-	
+	}
+
+	@Override
+	public Post view(Long pno) {
+		dao.increaseViewCount(pno);
+		return findBy(pno);
+	}
+
 	
 
 }

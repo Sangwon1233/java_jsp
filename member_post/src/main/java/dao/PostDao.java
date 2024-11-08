@@ -163,7 +163,7 @@ public class PostDao {
 	    
 	    dao.selectList().forEach(System.out::println);
 	    System.out.println(dao.selectOne(4L));
-	    System.out.println(dao.delete(4L));
+//	    System.out.println(dao.delete(4L));
 	    
 	    
 	    
@@ -178,6 +178,37 @@ public class PostDao {
 //	    post = dao.selectOne(4L);
 //	    
 //	    System.out.println(post);
+	}
+	public int increaseViewCount(Long pno) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		// insert 처리 행 갯수
+		try {
+//				String sql ="insert into tbl_member (id, pw, name) values ('" + member.getEmail()
+//				+ "', '" + member.getPw() + "', '" + member.getName() + "')";
+
+			String sql = "update tbl_post set view_count=view_count + 1 where pno = ?";
+
+			
+			conn = DBConn.getConnection();
+			pstmt = conn.prepareStatement(sql);
+
+			int idx = 1;
+
+			pstmt.setLong(idx++, pno);
+			return pstmt.executeUpdate();
+
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+				conn.close();
+			} catch (SQLException ignore) {
+			}
+		}
+
+		return 0;
 	}
 
 

@@ -9,11 +9,15 @@ public interface PostService {
 	
 	int modify(Post post);
 	
-	int romove(Long pno);
+	int remove(Long pno);
 	
 	Post findBy(Long pno);
 	
+	Post view(Long pno);
+	
 	List<Post> list();
+
+
 	
 
 }

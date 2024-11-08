@@ -11,7 +11,10 @@
 	<div class="wrap">
 		<jsp:include page="../common/header.jsp" />
 		<main class="container">
-			 <h2 class="my-3">게시판</h2>
+			 <div class="clearfix py-4">
+				 <h2 class="float-start">게시판</h2>
+			 	<a href="write" class="btn btn-primary float-end">글쓰기</a>
+			 </div>
     	<table class="table table-hover text-center" style="table-layout: fixed;">
 	        <thead>
 		        <tr>

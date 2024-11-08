@@ -16,7 +16,7 @@
 	<h3>${"10"- 4}</h3>
 	<h3>${"10"* 4}</h3>
 	<h3>${"10"/ 4}</h3>
-	<%-- <h3>${"10"div 4}</h3> --%>
+<%-- 	<%-- <h3>${"10"div 4}</h3> --%> --%>
 	<h3>${"10"% 4}</h3>
 	<h3>${"10"mod 4}</h3>
 	<h3>${3.14+1}</h3>
@@ -42,11 +42,11 @@
 		list.add("abcd");
 		String[] strings = {};
 		
-		pageContext.setAttribute("list", list);
+ 		pageContext.setAttribute("list", list);
 		pageContext.setAttribute("array", strings);
 		pageContext.setAttribute("str1", "");
 		pageContext.setAttribute("str2", "abcd");
-		pageContext.setAttribute("str3", null);
+		pageContext.setAttribute("str3", null); 
 	%>
 	<h3>${empty list}</h3>
 	<h3>${empty array}</h3>
