@@ -14,9 +14,9 @@
 				 <h2 class="float-start">게시글 쓰기</h2>
 			 </div>
 			  <div class="my-3 col-md-9 mx-auto">
-				  <form method="post">
+				  <form method="post" action="write?page=1&${cri.qs}">
 				  
-				  	    <label for="title" class="form-label mt-3"><i class="fa-solid fa-heading "></i> <b>제목:</b></label>
+				  	     <label for="title" class="form-label mt-3"><i class="fa-solid fa-heading text-primary mx-2"></i><b>제목:</b></label>
 		                <input type="text" class="form-control" id="title" placeholder="title" name="title">
 		                
 		                <label for="content" class="form-label mt-3"><i class="fa-solid fa-align-left "></i> <b>내용:</b></label>
@@ -28,7 +28,7 @@
 		           
 		               <div class="text-center my-5">
 		               		<button class="btn btn-primary">작성</button>
-		                    <a href="list" class="btn">목록</a>
+		                    <a href="list?${cri.qs2}" class="btn btn-primary">목록</a>
 		               </div>
 		               
 	               </form>
@@ -36,10 +36,5 @@
 		</main>
 		<jsp:include page="../common/footer.jsp" />
 	</div>
-	 <script>
-	 
-
-    </script>
-
 </body>
 </html>

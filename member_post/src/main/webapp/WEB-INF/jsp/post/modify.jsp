@@ -14,13 +14,13 @@
 				 <h2 class="float-start">게시글 쓰기</h2>
 			 </div>
 			  <div class="my-3 col-md-9 mx-auto">
-				  <form method="post">
+				  <form method="post" action ="modify?${cri.qs2}">
 				  
 				  	    <label for="title" class="form-label mt-3"><i class="fa-solid fa-heading "></i> <b>제목:</b></label>
 		                <input type="text" class="form-control" id="title" placeholder="title" name="title" value=${post.title}>
 		                
 		                <label for="content" class="form-label mt-3"><i class="fa-solid fa-align-left "></i> <b>내용:</b></label>
-		                <textarea class="form-control" rows="20" id="content" name="content"  placeholder="content">${post.title}</textarea>
+		                <textarea class="form-control" rows="20" id="content" name="content"  placeholder="content">${post.content}</textarea>
 		          
 		                <label for="writer" class="form-label mt-3"><i class="fa-solid fa-user-pen"></i> <b>작성자:</b></label>
 		                <input type="text" class="form-control" id="writer" placeholder="writer" name="writer" value="${member.id}" readonly>
@@ -28,7 +28,7 @@
 		           
 		               <div class="text-center my-5">
 		               		<button class="btn btn-primary">작성</button>
-		                    <a href="list" class="btn">목록</a>
+		                    <a href="list?"{cri.qs2} class="btn">목록</a>
 		               </div>
 		               <input type= "hidden" name="pno" value="${post.pno}"> 
 		               
