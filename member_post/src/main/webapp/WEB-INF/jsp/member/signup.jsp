@@ -36,7 +36,7 @@
 
             const data = { 
                 keyword ,
-                confmKey : 'devU01TX0FVVEgyMDI0MTAyOTEyMTYxNTExNTE5OTY=' ,
+                confmKey : 'devU01TX0FVVEgyMDI0MTExMjExNDQzMjExNTIyOTE=' ,
                 currentPage : 1,
                 countPerPage : 100,
                 resultType : 'json'

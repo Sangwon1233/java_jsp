@@ -52,8 +52,8 @@ public class Signup extends HttpServlet{
 		System.out.println(member);
 		
 		service.register(member);
-		
 		resp.sendRedirect("signup");
+		
 	
 	}
 	

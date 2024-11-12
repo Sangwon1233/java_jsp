@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import vo.Attach;
+
 @WebServlet("/upload")
 public class Upload extends HttpServlet {
     @Override
@@ -27,6 +30,7 @@ public class Upload extends HttpServlet {
         factory.setRepository(new File("c:/upload/tmp"));
 
         ServletFileUpload upload = new ServletFileUpload(factory);
+        List<Attach> attachs = new ArrayList<Attach>();
         try {
             List<FileItem> items = upload.parseRequest(req);
             for(FileItem item : items) {
@@ -39,20 +43,24 @@ public class Upload extends HttpServlet {
                 if(dotIdx != -1) { //없으면 빈문자
                 	ext = origin.substring(dotIdx);//있으면 잘라서 ext에 넣는다
                 }
-                String realName = UUID.randomUUID() + ext; //문자열을 붙여서 문자열을 만듬
-                File parenPath = new File("c:/upload",getTodaySrt());
+                String uuid = UUID.randomUUID().toString();
+                String realName = uuid + ext; //문자열을 붙여서 문자열을 만듬
+                String path = getTodayStr();
+                File parenPath = new File("c:/upload",path);
+                
                 if(!parenPath.exists()) {
                 	parenPath.mkdir();
                 }
                 
                 item.write(new File(parenPath,realName));
+                attachs.add(Attach.builder().uuid(realName).path(path).origin(origin).build());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
-    public String getTodaySrt() {
+    public String getTodayStr() {
     	return new SimpleDateFormat("yyyy/MM/dd").format(System.currentTimeMillis());
     }
     

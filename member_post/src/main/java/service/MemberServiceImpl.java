@@ -2,24 +2,32 @@ package service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 import dao.MemberDao;
+import mapper.MemberMapper;
+import mapper.PostMapper;
+import utills.MybatisInit;
 import vo.Member;
 
 public class MemberServiceImpl implements MemberService{//인터페이스 구현부 implements 추가
 
-	private MemberDao memberDao = MemberDao.getInstance();
 	@Override
 	public int register(Member member) {
-		// TODO Auto-generated method stub
-		return memberDao.insert(member);
+		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession(true)){
+			MemberMapper mapper=session.getMapper(MemberMapper.class);
+					return mapper.insert(member);
+	
+		}
 	}
-
 	@Override
 	public Member findBy(String id) {
-		// TODO Auto-generated method stub
-		return memberDao.selectOne(id);
+		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession()){
+			MemberMapper mapper=session.getMapper(MemberMapper.class);
+					return mapper.selectOne(id);
+	
+		}
 	}
-
 	@Override
 	public boolean login(String id, String pw) {
 		Member m = findBy(id);
