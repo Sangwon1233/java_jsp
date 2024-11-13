@@ -18,6 +18,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.codehaus.jackson.map.ObjectMapper;
 
 import vo.Attach;
 
@@ -51,10 +52,15 @@ public class Upload extends HttpServlet {
                 if(!parenPath.exists()) {
                 	parenPath.mkdir();
                 }
-                
+           
                 item.write(new File(parenPath,realName));
                 attachs.add(Attach.builder().uuid(realName).path(path).origin(origin).build());
+             
             }
+          //attachs 자바 객체를  jsp로 바꾸기
+            
+            resp.setContentType("application/json; charset=utf-8");
+            resp.getWriter().print(new ObjectMapper().writeValueAsString(attachs));
         } catch (Exception e) {
             e.printStackTrace();
         }

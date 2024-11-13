@@ -1,13 +1,17 @@
 package vo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 
 @Data
 @Builder
+@AllArgsConstructor
 public class Post {
 	 private final Long pno;
 	 private final String title;
@@ -17,71 +21,25 @@ public class Post {
 	 private final Date regdate;
 	 private final Date updatedate;
 	 private final int  cno;
+	 private final boolean  attachFlag;
 	 
+	 @Builder.Default
+	 private List<Attach> attachs = new ArrayList<>(); //얘는 파이널 붙이면 안됨 셋터 써야함 대조해야함
+
+	public Post(Long pno, String title, String writer, String content, Long viewCount, Date regdate, Date updatedate,
+			int cno,boolean attachFlag) {
+		super();
+		this.pno = pno;
+		this.title = title;
+		this.writer = writer;
+		this.content = content;
+		this.viewCount = viewCount;
+		this.regdate = regdate;
+		this.updatedate = updatedate;
+		this.cno = cno;
+		this.attachFlag = attachFlag;
+	}
+	 
+
 }
-//	 public Post() {}
-//	 
-//	 public Post(
-//		private Long pno,
-//		private String title,
-//		private String writer,
-//		private String content,
-//		private Long view_count,
-//		private Data regdate,
-//		private Data updatedate)	 
-//	 	{
-//		 this.pno=pno;
-//		 this.title=title;
-//		 this.writer=writer;
-//		 this.content=content;
-//		 this.view_count=view_count;
-//		 this.regdate=regdate;
-//		 this.updatedate=updatedate;
-//	 	}
-//	 
-//	 public static P builder() {
-//		 return new P();
-//	 }
-//	 public static class P{
-//		 Long pno;
-//		 String title;
-//		 String writer;
-//		 String content;
-//		 Long view_count;
-//		 Date regdate;
-//		 Date updatedate;
-//		 
-//		 public P pno(Long pno) {
-//				this.pno = pno;
-//				return this;
-//			}
-//		 public P title(String title) {
-//			 this.title = title;
-//			 return this;
-//		 }
-//		 public P writer(String writer) {
-//			 this.writer = writer;
-//			 return this;
-//		 }
-//		 public P content(String content) {
-//			 this.content = content;
-//			 return this;
-//		 }
-//		 public P view_count(Long view_count) {
-//			 this.view_count = view_count;
-//			 return this;
-//		 }
-//		 public P regdate(Date regdate) {
-//			 this.regdate = regdate;
-//			 return this;
-//		 }
-//		 public P updatedate(Date updatedate) {
-//			 this.updatedate = updatedate;
-//			 return this;
-//		 }
-//		 public Post build() {
-//			 return new Post(pno,title,writer,content,view_count,regdate,updatedate);
-//		 }
-//		 
-//	 }
 

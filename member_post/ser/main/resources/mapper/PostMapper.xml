@@ -3,20 +3,36 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.PostMapper">
+	<resultMap type="vo.Post" id="post">
+		<id column="pno" property="pno"/><!--property는 pk id값은 key  -->
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="writer" property="writer" />
+		<result column="regdate" property="regdate" />
+		<result column="updatedate" property="updatedate" />
+		<result column="viewcount" property="viewCount" />
+		<result column="cno" property="cno" />
+		<result column="attach_flag" property="attachFlag"/>
+	</resultMap>
+
 	<insert id="insert">
 	insert into tbl_post (title, writer, content, cno) values (#{title},#{writer},#{content},#{cno})
+	<selectKey order ="AFTER" keyProperty="pno" resultType="long">
+	select max(pno) from tbl_post
+	</selectKey>
 	</insert>
 	
-	<select id="selectOne" resultType="vo.Post">
-	select * from tbl_post where pno= #{pno}
+	<select id="selectOne" resultMap="post">
+	select tp.*, 1 from tbl_post tp where pno= #{pno}
 	</select>
 	
 	  <select id="getCount" resultType="int"> 
 	select count(*) as cnt from tbl_post WHERE  cno = #{category}
 	</select>
 	
-	<select id="selectList" resultType="vo.Post">
-	select * from tbl_post WHERE cno= #{category} order by 1 desc limit #{amount} offset #{offset}
+	<select id="selectList" resultMap="post">
+	SELECT tp.*, (SELECT COUNT(*) from tbl_attach ta WHERE ta.pno = tp.pno) attach_flag
+	from tbl_post tp WHERE cno= #{category} order by 1 desc limit #{amount} offset #{offset}
 	</select>
 	
 	<update id="update">

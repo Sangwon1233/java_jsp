@@ -6,18 +6,33 @@ import org.apache.ibatis.session.SqlSession;
 
 import dao.PostDao;
 import dto.Criteria;
+import mapper.AttachMapper;
 import mapper.PostMapper;
 import utills.MybatisInit;
+import vo.Attach;
 import vo.Post;
 
 public class PostServiceimpl implements PostService  {
 	private PostDao dao = new PostDao();
+	public static void main(String[] args) {
+		new PostServiceimpl().write(Post.builder().title("제목").content("abcd").writer("aa").cno(2).build());
+	}
 	
 	
 	public int write(Post post) {
 		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession(true)){
 			PostMapper mapper=session.getMapper(PostMapper.class);
-					return mapper.insert(post);
+			AttachMapper attachMapper=session.getMapper(AttachMapper.class);
+			System.out.println(post);// post.getPno()의 값은 null이다
+			mapper.insert(post);
+			System.out.println(post);// post.getPno() 의 값이 not null이다
+			post.getAttachs().forEach(a -> {
+				a.setPno(post.getPno());
+				attachMapper.insert(a);
+			});
+			
+			
+			return 0;
 		}
 	}
 	
@@ -31,6 +46,8 @@ public class PostServiceimpl implements PostService  {
 	public int remove(Long pno) {
 		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession(true)){
 			PostMapper mapper=session.getMapper(PostMapper.class);
+			AttachMapper attachMapper=session.getMapper(AttachMapper.class);
+			attachMapper.delete(pno);
 					return mapper.delete(pno);
 		}
 	}
@@ -38,7 +55,10 @@ public class PostServiceimpl implements PostService  {
 	public Post findBy(Long pno) {
 		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession(true)){
 			PostMapper mapper=session.getMapper(PostMapper.class);
-			return mapper.selectOne(pno);
+			AttachMapper attachMapper=session.getMapper(AttachMapper.class);
+			Post post = mapper.selectOne(pno);
+			
+			return post;
 		}
 	}
 	
@@ -62,7 +82,10 @@ public class PostServiceimpl implements PostService  {
 	public Post view(Long pno) {
 		try(SqlSession session =  MybatisInit.getInstance().sqlSessionFactory().openSession(true)){
 			PostMapper mapper=session.getMapper(PostMapper.class);
+			AttachMapper attachMapper=session.getMapper(AttachMapper.class);
 			mapper.increaseViewCount(pno);
+			Post post = mapper.selectOne(pno);
+			post.setAttachs(attachMapper.selectList(pno));
 			return mapper.selectOne(pno);
 		}
 	}

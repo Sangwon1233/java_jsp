@@ -18,5 +18,6 @@
   <mappers>
     <mapper resource="mapper/PostMapper.xml"/>
     <mapper resource="mapper/MemberMapper.xml"/>
+    <mapper resource="mapper/AttachMapper.xml"/>
   </mappers>
 </configuration>

@@ -9,7 +9,7 @@ import vo.Post;
 
 
 public interface PostMapper {
-	int insert(Post post);
+	 int insert(Post post);
 
 	 Post selectOne(Long pno);
     
