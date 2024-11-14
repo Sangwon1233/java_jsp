@@ -36,11 +36,11 @@
 	</select>
 	
 	<update id="update">
-      update tbl_post set title = #{title}, content= #{content}, updatedate= now() where pno = #{pno}
+      update tbl_post  set title = #{title}, content= #{content}, updatedate= now() where pno = #{pno}
   	</update>
   	
 	<update id="increaseViewCount">
-	update tbl_post set view_count=view_count + 1 where pno = #{pno}
+	update tbl_post tp set view_count=view_count + 1 where pno = #{pno}
 	</update>
 	
 	<delete id="delete">
