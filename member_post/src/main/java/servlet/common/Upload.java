@@ -18,7 +18,9 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.apache.ibatis.javassist.expr.NewArray;
+
+import com.google.gson.Gson;
 
 import utills.Commons;
 import vo.Attach;
@@ -61,7 +63,7 @@ public class Upload extends HttpServlet {
           //attachs 자바 객체를  jsp로 바꾸기
             
             resp.setContentType("application/json; charset=utf-8");
-            resp.getWriter().print(new ObjectMapper().writeValueAsString(attachs));
+            resp.getWriter().print(new Gson().toJson(attachs));
         } catch (Exception e) {
             e.printStackTrace();
         }

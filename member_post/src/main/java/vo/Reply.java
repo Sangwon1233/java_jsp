@@ -7,15 +7,17 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class Reply {
-	 private final Long rno;
-	 private final String content;
-	 private final Date regdate;
-	 private final Date updatedate;
+	 private Long rno;
+	 private String content;
+	 private Date regdate;
+	 private Date updatedate;
 	 private boolean hideen;
 	 private int likes;
 	 private String writer;
