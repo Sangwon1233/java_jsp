@@ -24,7 +24,7 @@ public class ReplyController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uri = req.getRequestURI();
 		uri = uri.replace(req.getContextPath() + "/reply/", "");
-		System.out.println(uri);
+//		System.out.println(uri);
 		
 		
 		Object ret =null;
@@ -64,14 +64,9 @@ public class ReplyController extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		char[] chs=new char[req.getContentLength()];
-		req.getReader().read(chs);//문자배열은 문자열
-		String str = new String(chs);
-		System.out.println(str);
-	
 		Reply reply= gson.fromJson(req.getReader(), Reply.class);
-	
-		Service.write(reply);
+		System.out.println(reply);
+		Service.modify(reply);
 //		Reply reply=mapper.convertValue(str, Reply.class);
 //		System.out.println(reply);
 	}

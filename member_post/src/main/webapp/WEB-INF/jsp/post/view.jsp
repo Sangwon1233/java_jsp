@@ -43,7 +43,7 @@
 						</c:forEach>
 					</ul> 
 					<div class ="clearfix mt-3 mb-2">
-					<label class="form-label float-start"><i class="fa-regular fa-comment-dots"></i></i> <b>댓글:</b></label>
+					<label class="form-label float-start"><i class="fa-regular fa-comment-dots"></i><b>댓글:</b></label>
 					<button type = "button" class="btn btn-primary float-end btn-sm" id ="btnWriteReply">writer reply</button>
 					</div>
 					<ul class="list-group small replies">
@@ -51,29 +51,35 @@
 					</ul>
                 <hr>
                <div class="text-center my-5">
-               		<c:if test="${post.writer == member.id}">
-                    <a href="modify?pno=${post.pno}&${cri.qs2}" class="btn btn-warning">수정</a>
-                    <a href="remove?pno=${post.pno}&${cri.qs2}" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-                    </c:if>
+	               	<c:if test="${post.writer == member.id}">
+	                   <a href="modify?pno=${post.pno}&${cri.qs2}" class="btn btn-warning">수정</a>
+	                   <a href="remove?pno=${post.pno}&${cri.qs2}" class="btn btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
+	                 </c:if>
                     <a href="list?${cri.qs2}" class="btn btn-primary">목록</a>
                </div>
             </div>
 		</main>
 		<script src="${cp}js/reply.js"></script>
-		<script>
-			moment.locale("ko");
-	
-			const pno = "${post.pno}";
+	<script>
+		moment.locale("ko");
 
-			// replyService.write({content : 'abcd'})
+		const pno = "${post.pno}";
+
+		// replyService.write({content : 'abcd'})
+		//목록조회
+		function list() {
 			replyService.list(pno,function(data) {
 				let str = "";
 				for(let i in data){
 					str += makeLi(data[i])
 				}
-				$(".replies").append(str);
-				
+				$(".replies").html(str);
 			});
+		}
+		list();//리스트 함수 한번 호출
+			 
+			
+		//단일 리스트 문자열 생성
 		function makeLi(reply){
             return `<li class="list-group-item"data-rno="\${reply.rno}">
 
@@ -82,31 +88,84 @@
                     <span class="float-start">\${reply.writer}</span>
                     
                     <span class="float-end small">\${moment(reply.regdate,'yyyy/MM/DD-HH:mm:ss').fromNow()}</span>
-                    <a type="button" class="float-end  small text-danger mx-2">삭제</a>
+                    <a type="button" class="float-end  small text-danger mx-2 btn-reply-remove"href="#">삭제</a>
                 </div>
             </li>`;
-        }
-			$("#btnWriteReply").click(function() {
-                $("#replyModal").modal("show");
-            })
-
+        }	
+		//li 클릭시 이벤트
+		$(".replies").on("click","li",function(){
+			const rno = ($(this).data("rno"));
+			replyService.view(rno,function(data){
+				$("#replyModal").find(".modal-footer div button").hide()
+	             	.filter(":gt(0)").show();
+				
+				 $("#replyModal").data("rno",rno).modal("show");
+			     $("#replyContent").val(data.content);
+	             $("#replyWriter").val(data.writer);
+					
+	             console.log(data);//확인하면서 하기
+			})
+		});
+		//li .btn-reply-remove 클릭시 이벤트
+		$(".replies").on("click","li .btn-reply-remove",function(){
+			event.preventDefault();
+			event.stopPropagation();
+			if(! confirm("삭제 하시겠습니까?")){
+				return false;
+			}
+			const rno = ($(this).closest("li").data("rno"));
+			//console.log($(this).data("rno"))
+			replyService.remove(rno,function(data){
+				alert("삭제 되었습니다");
+				list();//리스트 함수 호출
+			});
+			return false;	
 			
-			$(function() {
-                $("#btnReplyWriteSubmit").click(function() {
-                    const writer = $("#replyWriter").val();
-                    const content = $("#replyContent").val();
-                    const reply = {pno, writer, content};
-                    replyService.write(reply, function(data) {
-                        $("#replyModal").modal("hide");
-                        $("#replyWriter").val("");
-                        $("#replyContent").val("");
+		});
+			
 
-                       location.reload();
-                    });
-                });
-                $("#replyModal").modal("show")
-            })
-			</script>
+            
+
+		$(function() {
+			//댓글 작성(반영) 버튼 클릭시
+               $("#btnReplyWriteSubmit").click(function() {
+                   const writer = $("#replyWriter").val();
+                   const content = $("#replyContent").val();
+                   const reply = {pno, writer, content};
+                   replyService.write(reply, function(data) {
+                       $("#replyModal").modal("hide");
+					list();
+                      //location.reload();
+                   });
+               });
+			
+               /* $("#replyModal").modal("show") 들어갔을때 바로 뜨게하기 */
+               
+       		//댓글 수정(반영) 버튼 클릭시
+       		$("#btnReplyModifySubmit").click(function() {
+       			const content = $("#replyContent").val();
+       			const rno = $("#replyModal").data("rno");
+       			const reply = {rno, content};
+       			
+                   replyService.modify(reply, function(data) {
+                   	$("#replyModal").modal("hide");
+       				list();
+       			 	
+                  })
+              })
+              //댓글 삭제(반영)버튼 클릭시
+              $("#btnReplyRemoveSubmit").click(function() {
+       			const rno = $("#replyModal").data("rno");
+       			replyService.remove(rno,function(data){
+       				$("#replyModal").modal("hide");	
+    				list();//리스트 함수 호출
+       			
+       			}
+       			
+              })
+                   
+       })
+	</script>
 		<jsp:include page="../common/footer.jsp" />
 		</div>
 	<!-- The Modal -->
@@ -131,8 +190,12 @@
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="btnReplyWriteSubmit">Write</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+	          <div>
+	            	<button type="button" class="btn btn-primary" id="btnReplyWriteSubmit">Write</button>
+	            	<button type="button" class="btn btn-warning" id="btnReplyModifySubmit">Modify</button>
+	            	<button type="button" class="btn btn-danger" id="btnReplyRemoveSubmit">Remove</button>
+	          </div>
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
           </div>
 
         </div>
