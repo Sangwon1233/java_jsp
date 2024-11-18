@@ -25,6 +25,13 @@
 	
 	<select id="selectList" resultType="vo.Reply">
 	select * from tbl_reply where pno = #{pno}
+	<!-- SELECT *
+	from tbl_reply tr 
+	where pno = #{pno} 
+	AND rno> 0
+	order by rno 
+	LIMIT 5 -->
 	</select>
+	
 	
 </mapper>

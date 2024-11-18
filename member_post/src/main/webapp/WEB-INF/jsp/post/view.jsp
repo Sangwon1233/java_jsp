@@ -59,6 +59,7 @@
                </div>
             </div>
 		</main>
+		
 		<script src="${cp}js/reply.js"></script>
 	<script>
 		moment.locale("ko");
@@ -86,7 +87,6 @@
                 <p class="text-black fw-bold my-3 text-truncate">\${reply.content}</p>
                 <div class="clearfix text-secondary">
                     <span class="float-start">\${reply.writer}</span>
-                    
                     <span class="float-end small">\${moment(reply.regdate,'yyyy/MM/DD-HH:mm:ss').fromNow()}</span>
                     <a type="button" class="float-end  small text-danger mx-2 btn-reply-remove"href="#">삭제</a>
                 </div>
@@ -94,7 +94,8 @@
         }	
 		//li 클릭시 이벤트
 		$(".replies").on("click","li",function(){
-			const rno = ($(this).data("rno"));
+			const rno = $(this).data("rno");
+			$("#replyModal").modal("show");
 			replyService.view(rno,function(data){
 				$("#replyModal").find(".modal-footer div button").hide()
 	             	.filter(":gt(0)").show();
@@ -123,21 +124,30 @@
 			
 		});
 			
+		// 댓글 쓰기 버튼 클릭시
+        $("#btnWriteReply").click(function() {
+            $("#replyModal").find(".modal-footer div button").hide()
+                .filter(":eq(0)").show();
 
+            $("#replyModal").modal("show");
+            $("#replyContent").val("");
+            $("#replyWriter").val("${member.id}");
+
+        });
+     
             
 
 		$(function() {
 			//댓글 작성(반영) 버튼 클릭시
-               $("#btnReplyWriteSubmit").click(function() {
-                   const writer = $("#replyWriter").val();
-                   const content = $("#replyContent").val();
-                   const reply = {pno, writer, content};
-                   replyService.write(reply, function(data) {
-                       $("#replyModal").modal("hide");
-					list();
-                      //location.reload();
-                   });
-               });
+              $("#btnReplyWriteSubmit").click(function() {
+                    const writer = $("#replyWriter").val();
+                    const content = $("#replyContent").val();
+                    const reply = {pno, writer, content};
+                    replyService.write(reply, function(data) {
+                        $("#replyModal").modal("hide");
+                        list();
+                    });
+                });
 			
                /* $("#replyModal").modal("show") 들어갔을때 바로 뜨게하기 */
                
@@ -160,7 +170,7 @@
        				$("#replyModal").modal("hide");	
     				list();//리스트 함수 호출
        			
-       			}
+       			})
        			
               })
                    
