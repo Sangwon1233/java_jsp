@@ -1,6 +1,7 @@
 package servlet.reply;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import dao.ReplyCri;
 import service.ReplyService;
 import service.ReplyServiceImpl;
 import vo.Reply;
@@ -24,29 +26,37 @@ public class ReplyController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String uri = req.getRequestURI();
 		uri = uri.replace(req.getContextPath() + "/reply/", "");
-//		System.out.println(uri);
+		System.out.println(uri); //작성글 댓글 확인
 		
 		
 		Object ret =null;
 		if(uri.startsWith("list")) {//목록조회
-			int tmpIdx=uri.lastIndexOf("/");
+			// / reply/list#{pno}
+			// / reply/list#{pno}#{lastRno}/
+			// / reply/list#{pno}#{lastRno}/#{amount}
+			ReplyCri cri = new ReplyCri();
+			int tmpIdx=uri.indexOf("/");
 			Long pno = 0L;
 			if(tmpIdx != -1) {
-				String tmp =  uri.substring(tmpIdx+1);
+				String tmp =  uri.substring(tmpIdx+1);	
+				System.out.println(tmp);//로그확인
 				String[] tmpArr = tmp.split("/");
+				System.out.println(Arrays.toString(tmpArr));//로그 확인
 				switch (tmpArr.length) {
-				case 0:
-					break;
-
-				default:
-					break;
+				case 3:
+					cri.setAmount(Integer.parseInt(tmpArr[2]));
+				case 2:
+					cri.setLastRno(Long.parseLong(tmpArr[1]));
+				case 1:
+					pno = Long.valueOf(tmpArr[0]);
+					//break; 리턴 안함
 				}
 				
-			
-				pno = Long.valueOf(uri.substring(tmpIdx+1));
+				System.out.println(cri);
+//				pno = Long.valueOf(uri.substring(tmpIdx+1));
 				
 			}
-			ret=Service.list(pno);
+			ret=Service.list(pno, cri,req.getSession().getAttribute("member"));
 		}
 		else {//단일조회
 			Long rno = Long.valueOf(uri);

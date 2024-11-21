@@ -16,10 +16,16 @@ const  replyService = (function() {// 함수내부에서 결과 관리 위에랑
             
         })
 
-
     }
-    function list(pno,callback) {
-        $.getJSON(url + "/list/" + pno).done(function(data) {
+    function list(pno,cri,callback) {
+		let reformedUrl =url + "/list/" + pno;
+		if(cri&&cri.lastRno){
+			reformedUrl += "/" + cri.lastRno
+			if(cri.amount){
+				reformedUrl += "/" + cri.amount
+			}
+		}	
+        $.getJSON(reformedUrl).done(function(data) {
             if(callback)
             callback(data);
         });

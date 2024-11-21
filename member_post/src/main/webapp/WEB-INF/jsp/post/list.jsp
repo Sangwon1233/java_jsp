@@ -15,6 +15,38 @@
 				 <h2 class="float-start">공지사항</h2>
 			 	<a href="write?${pageDto.cri.qs2}" class="btn btn-primary float-end">글쓰기</a>
 			 </div>
+			 <form>
+				<input type="hidden" name="page" value="${pageDto.cri.page}">
+				<input type="hidden" name="category" value="${pageDto.cri.category}">
+				<div class = "row my-3">
+					<div class="col-2">
+						<select class="form-select"name="type">
+						<option value="T" ${pageDto.cri.type == 'T' ? 'selected' : ''}>제목</option>
+						<option value="C" ${pageDto.cri.type =='C' ? 'selected' : ''}>내용</option>
+						<option value="W" ${pageDto.cri.type =='W' ? 'selected' : ''}>작성자</option>
+						<option value="TC" ${pageDto.cri.type =='TC' ?'selected' : ''}>제목 + 내용</option>
+						<option value="TW" ${pageDto.cri.type =='TW' ?'selected' : ''}>제목 + 작성자</option>
+						<option value="CW" ${pageDto.cri.type =='CW' ?'selected' : ''}>내용 + 작성자</option>
+						<option value="TCW" ${pageDto.cri.type =='TCW' ?'selected' : ''}>제목 + 내용 + 작성자</option>
+						</select>		 	
+					</div>
+					<div class = "col-4">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" placeholder="Search" name="keyword" value="${pageDto.cri.keyword}">
+							<button class="btn btn-success" type="submit">search</button>
+						</div>
+					</div>
+					<div class = "col-4"></div>
+					<div class = "col-2 float-end">
+						<select class="form-select" name="amount">
+						<option value="10" ${pageDto.cri.amount == 10 ? 'selected' : ''}>10개씩 보기</option>
+						<option value="20" ${pageDto.cri.amount == 20 ? 'selected' : ''}>20개씩 보기</option>
+						<option value="30" ${pageDto.cri.amount == 30 ? 'selected' : ''}>30개씩 보기</option>
+						<option value="50" ${pageDto.cri.amount == 50 ? 'selected' : ''}>50개씩 보기</option>
+						</select>		 	
+					</div>
+				</div>
+			</form>
     	<table class="table table-hover text-center" style="table-layout: fixed;">
 	        <thead>
 		        <tr>

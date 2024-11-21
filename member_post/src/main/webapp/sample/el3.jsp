@@ -1,4 +1,4 @@
-<%@page import="java.util.ArrayList"%>
+<%-- <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -16,7 +16,7 @@
 	<h3>${"10"- 4}</h3>
 	<h3>${"10"* 4}</h3>
 	<h3>${"10"/ 4}</h3>
-	<%-- <h3>${"10"div 4}</h3> --%>
+	<h3>${"10"div 4}</h3>
 	<h3>${"10"% 4}</h3>
 	<h3>${"10"mod 4}</h3>
 	<h3>${3.14+1}</h3>
@@ -63,4 +63,4 @@
 
 	
 </body>
-</html>
+</html> --%>
